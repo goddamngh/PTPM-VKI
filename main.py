@@ -2,15 +2,14 @@ import logging
 import sys
 import os
 
-# --- НАСТРОЙКА ЛОГИРОВАНИЯ ---
 if not os.path.exists("logs"):
     os.makedirs("logs")
 
-log_format = "%(asctime)s | [%(levelname)-7s] | %(message)s"
+log_format = "%(asctime)s | [%(levelname)-8s] | %(message)s"
 date_format = "%Y-%m-%d %H:%M:%S"
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format=log_format,
     datefmt=date_format,
     handlers=[
@@ -18,6 +17,9 @@ logging.basicConfig(
         logging.FileHandler("logs/file_txt.log", encoding="utf-8")
     ]
 )
+
+def clamp(x, lo, hi):
+    return sorted([lo, x, hi])[1]
 
 
 def get_triangle_type_and_coords(a_str, b_str, c_str):
@@ -55,9 +57,9 @@ def get_triangle_type_and_coords(a_str, b_str, c_str):
     cy = int(90 - (b * scale))
 
     coords = [
-        (max(0, min(100, ax)), max(0, min(100, ay))),
-        (max(0, min(100, bx)), max(0, min(100, by))),
-        (max(0, min(100, cx)), max(0, min(100, cy)))
+        (clamp(ax, 0, 100), clamp(ay, 0, 100)),
+        (clamp(bx, 0, 100), clamp(by, 0, 100)),
+        (clamp(cx, 0, 100), clamp(cy, 0, 100))
     ]
 
     logging.info(f"Результат: тип={t_type}, координаты={coords}")
@@ -67,20 +69,27 @@ def get_triangle_type_and_coords(a_str, b_str, c_str):
 def main():
     logging.info("Приложение запущено")
     logging.info("Логгер успешно сконфигурирован")
+    run = True
+    i = 1
+    while run:
+        logging.info(f"Итерация номер {i}")
 
-    print("--- Введите длины сторон треугольника ---")
-    try:
-        a_str = input("Сторона A: ")
-        b_str = input("Сторона B: ")
-        c_str = input("Сторона C: ")
-    except Exception as e:
-        logging.critical(f"Критическая ошибка ввода: {e}")
-        return
+        print("Введите длины сторон треугольника")
+        try:
+            a_str = input("Сторона A: ")
+            b_str = input("Сторона B: ")
+            c_str = input("Сторона C: ")
+        except Exception as e:
+            logging.critical(f"Критическая ошибка ввода: {e}")
+            return
 
-    tri_type, coords = get_triangle_type_and_coords(a_str, b_str, c_str)
+        tri_type, coords = get_triangle_type_and_coords(a_str, b_str, c_str)
 
-    print(f"\nТип треугольника: {tri_type if tri_type else 'нечисловые данные'}")
-    print(f"Координаты вершин: {coords}")
+        print(f"\nТип треугольника: {tri_type if tri_type else 'нечисловые данные'}")
+        print(f"Координаты вершин: {coords}")
+        if input("Начать заново? y/n \n").strip().lower() == 'n':
+            run = False
+        i+=1
 
 
 if __name__ == "__main__":
