@@ -37,7 +37,7 @@ def get_triangle_type_and_coords(a_str, b_str, c_str):
         logging.error("Ошибка: стороны должны быть положительными")
         return "не треугольник", [(-1, -1), (-1, -1), (-1, -1)]
 
-    if (a + b <= c) or (a + c <= b) or (b + c <= a):
+    if (round(a + b, 10) <= round(c, 10)) or (round(a + c, 10) <= round(b, 10)) or (round(b + c, 10) <= round(a, 10)):
         logging.info("Результат: не треугольник (нарушено неравенство треугольника)")
         return "не треугольник", [(-1, -1), (-1, -1), (-1, -1)]
 
