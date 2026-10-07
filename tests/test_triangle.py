@@ -1,10 +1,7 @@
 import unittest
-# Импортируем тестируемую функцию из вашего файла main.py
-from main import get_triangle_type_and_coords
+from test_triangle import get_triangle_type_and_coords
 
 class TestTriangleApp(unittest.TestCase):
-
-    # --- ГРУППА 1: Корректные треугольники (Позитивные тесты) ---
 
     def test_equilateral_triangle(self):
         """1. Тест равностороннего треугольника"""
@@ -23,13 +20,11 @@ class TestTriangleApp(unittest.TestCase):
         self.assertEqual(t_type, "разносторонний")
 
     def test_floating_point_precision(self):
-        """4. Тест на точность float (то, ради чего вы делали округление!)"""
+        """4. Тест на точность float"""
         t_type, coords = get_triangle_type_and_coords("0.1", "0.2", "0.3")
-        # Сумма 0.1 + 0.2 не должна позволить построить треугольник
         self.assertEqual(t_type, "не треугольник")
         self.assertEqual(coords, [(-1, -1), (-1, -1), (-1, -1)])
 
-    # --- ГРУППА 2: Некорректные данные (Негативные тесты) ---
 
     def test_not_a_triangle_inequality(self):
         """5. Нарушено неравенство треугольника (одна сторона слишком большая)"""
@@ -47,12 +42,10 @@ class TestTriangleApp(unittest.TestCase):
         t_type, _ = get_triangle_type_and_coords("-3", "4", "5")
         self.assertEqual(t_type, "не треугольник")
 
-    # --- ГРУППА 3: Ошибки типов и валидации ---
-
     def test_string_input_error(self):
         """8. Переданы буквы вместо чисел"""
         t_type, coords = get_triangle_type_and_coords("abc", "4", "5")
-        self.assertEqual(t_type, "")  # В коде возвращается пустая строка ""
+        self.assertEqual(t_type, "")
         self.assertEqual(coords, [(-2, -2), (-2, -2), (-2, -2)])
 
     def test_empty_input_error(self):
