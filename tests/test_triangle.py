@@ -1,5 +1,5 @@
 import unittest
-from test_triangle import get_triangle_type_and_coords
+from src.triangle import get_triangle_type_and_coords
 
 class TestTriangleApp(unittest.TestCase):
 
@@ -45,7 +45,7 @@ class TestTriangleApp(unittest.TestCase):
     def test_string_input_error(self):
         """8. Переданы буквы вместо чисел"""
         t_type, coords = get_triangle_type_and_coords("abc", "4", "5")
-        self.assertEqual(t_type, "")
+        self.assertEqual(t_type, "") 
         self.assertEqual(coords, [(-2, -2), (-2, -2), (-2, -2)])
 
     def test_empty_input_error(self):
