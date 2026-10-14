@@ -1,4 +1,5 @@
 import unittest
+import datetime
 from src.Delivery import calculate_delivery_cost
 
 
@@ -89,6 +90,11 @@ class TestDeliveryCost(unittest.TestCase):
         """16. Ровно 50 кг и 5000 км — валидно"""
         cost, _ = calculate_delivery_cost(50.0, 5000, "обычный")
         self.assertNotEqual(cost, -1)
+
+    def test_0_day(self):
+        """17. БАГ: при is_express = True и длительности доставки < 1 она округляется до 0"""
+        cost, date = calculate_delivery_cost(50.0, 1, "обычный", is_express=True)
+        self.assertEqual(date, datetime.date(2026, 9, 4))
 
 
 if __name__ == "__main__":
