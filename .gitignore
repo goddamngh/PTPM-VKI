@@ -15,3 +15,8 @@ env/
 # Локальные системные файлы операционных систем
 .DS_Store
 Thumbs.db
+
+# База данных SQLite
+*.db
+*.sqlite
+*.sqlite3
