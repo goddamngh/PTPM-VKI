@@ -3,9 +3,11 @@ import os
 
 class TriangleDatabase:
     def __init__(self, db_name="triangle.db"):
-        db_dir = os.path.dirname(os.path.abspath(__file__))
-        self.db_path = os.path.join(db_dir, db_name)
-
+        if db_name == ":memory:" or os.path.isabs(db_name):
+            self.db_path = db_name
+        else:
+            db_dir = os.path.dirname(os.path.abspath(__file__))
+            self.db_path = os.path.join(db_dir, db_name)
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
         self._create_table()
