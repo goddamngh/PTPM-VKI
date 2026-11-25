@@ -1,7 +1,7 @@
 import unittest
 import os
 import tempfile
-from src.database import TriangleDatabase
+from db.database import TriangleDatabase
 
 
 class TestTriangleDatabase(unittest.TestCase):
